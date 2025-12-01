@@ -21,7 +21,8 @@ public class MenssageService {
     public MsgDTO send(MsgDTO msgDTO, Long id) {
         Menssage menssage = new Menssage();
         Users user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuário não identificado!"));
+                .filter(users -> users.getOnline().equals(true))
+                .orElseThrow(() -> new RuntimeException("Usuário não identificado ou offiline!"));
 
         menssage.setMessage(msgDTO.message());
         menssage.setUser(user);
